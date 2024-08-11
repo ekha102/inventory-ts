@@ -1,0 +1,21 @@
+import axios from "../axios";
+
+export const deleteLocation = async (locId: string) => {
+  try {
+    // console.log(loc_id);
+    const  response = await axios.delete(`/api/locations/deleted-location/${locId}`);
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+}
+
+export const getAddForm = async (payload: []) => {
+  try {
+    // console.log(payload);
+    const response = await axios.post(`/api/locations/created-location`, payload);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+}
