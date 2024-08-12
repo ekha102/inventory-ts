@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-export const deleteLocation = async (locId: string) => {
+export const deleteLocation = async (locId: number) => {
   try {
     // console.log(loc_id);
     const  response = await axios.delete(`/api/locations/deleted-location/${locId}`);

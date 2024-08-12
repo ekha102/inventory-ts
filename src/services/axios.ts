@@ -19,24 +19,19 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
 
   const res = await axiosInstance.get(url, { ...config });
-
   return res.data;
 };
 
 // ----------------------------------------------------------------------
 //Get fuctions for data from back
 export const endpoints = {
-  bins: '/api/bins//created-bin',
   items: '/api/items/get-items',
+  bins: '/api/bins/get-bins',
   locations: '/api/locations/get-locations',
-  createlocations: '/api/locations/created-location',
-
-
+  stores: '/stores',
 
   // LocationRoute.get("/get-locations", getLocations);
   // LocationRoute.post("/created-location", getInputLocation,)
   // LocationRoute.delete("/deleted-location/:locId", getDeletedLocation);
 
-
-  stores: '/stores',
 };

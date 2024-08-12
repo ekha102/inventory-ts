@@ -9,11 +9,11 @@ import { deleteLocation } from '@/services/locations';
 export default function TableListLocation() {
   const { data: locationList = [], error, isLoading } = useSWR<ILocations[]>(endpoints.locations, axios);
 
-  const handleDeleteLocationItem = async (locId: string) => {
+  const handleDeleteLocationItem = async (locId: number) => {
     // console.log("Loc_id: ", locId)
     const res = await deleteLocation(locId)
     if (res.status) {
-      mutate(endpoints.locations)
+      mutate(endpoints.locations);
     }
 
   }
