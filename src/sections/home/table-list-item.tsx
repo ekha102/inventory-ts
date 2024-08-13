@@ -19,6 +19,7 @@ export default function TableListItems() {
     console.log(itemId);
     try {
       await deleteItemId(itemId);
+      // Recall the useSWR to fetch the data again for delete item 
       mutate(endpoints.items);
     } catch (error) {
       
@@ -55,7 +56,7 @@ export default function TableListItems() {
                 <Table.Cell>{ele.alert}</Table.Cell>
                 <Table.Cell>{ele.comment}</Table.Cell>
                 <Table.Cell>
-                  <Button variant='contained' color='error'size='small'onClick={()=>{handleDelete(ele.item_id)}} >Delete</Button>
+                  <Button variant='contained' color='error' size='small' onClick={()=>{handleDelete(ele.item_id)}} >Delete</Button>
                 </Table.Cell>
               </Table.Row>
             );

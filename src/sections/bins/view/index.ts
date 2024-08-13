@@ -1,0 +1,1 @@
+export {default as BinsPage} from "./bins"
