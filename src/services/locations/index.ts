@@ -10,7 +10,7 @@ export const deleteLocation = async (locId: number) => {
   }
 }
 
-export const getAddForm = async (payload: []) => {
+export const getAddForm = async (payload: [] ) => {
   try {
     // console.log(payload);
     const response = await axios.post(`/api/locations/created-location`, payload);

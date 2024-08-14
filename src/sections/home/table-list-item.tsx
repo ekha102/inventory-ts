@@ -15,7 +15,7 @@ export default function TableListItems() {
 
 
   // Delete the item in the table out 
-  const handleDelete = async (itemId: number) => {
+  const handleDeleteItem = async (itemId: number) => {
     console.log(itemId);
     try {
       await deleteItemId(itemId);
@@ -56,7 +56,7 @@ export default function TableListItems() {
                 <Table.Cell>{ele.alert}</Table.Cell>
                 <Table.Cell>{ele.comment}</Table.Cell>
                 <Table.Cell>
-                  <Button variant='contained' color='error' size='small' onClick={()=>{handleDelete(ele.item_id)}} >Delete</Button>
+                  <Button variant='contained' color='error' size='small' onClick={()=>{handleDeleteItem(ele.item_id)}} >Delete</Button>
                 </Table.Cell>
               </Table.Row>
             );

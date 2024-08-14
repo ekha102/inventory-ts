@@ -1,12 +1,24 @@
 import fetcher, { endpoints } from "@/services/axios";
 import { Table } from "@radix-ui/themes";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { IBins } from "./typeBins";
+import { Button, Grid } from "@mui/material";
+import { deleteBinId } from "@/services/bins";
 
 
 export default function BinsTable() {
   const { data: binsList = [], error, isLoading } = useSWR<IBins[]>(endpoints.bins, fetcher);
-  console.log(binsList)
+  // console.log(binsList);
+
+
+  const handleDeleteBin = async (binId: number) => {
+    try {
+      await deleteBinId(binId);
+      mutate(endpoints.bins);
+    } catch (error) {
+      
+    }
+  }
 
 
   if (error) return <div>failed to load</div>
@@ -33,7 +45,16 @@ export default function BinsTable() {
                 <Table.RowHeaderCell>{ele.bin_id}</Table.RowHeaderCell>
                 <Table.Cell>{ele.bin_name}</Table.Cell>
                 <Table.Cell>{ele.bin_desc}</Table.Cell>
-                <Table.Cell>Edit</Table.Cell>
+                <Table.Cell>
+                  <Grid container direction="row" spacing={1}>
+                    <Grid item>
+                      <Button variant="contained" color="primary">Edit</Button>
+                    </Grid>
+                    <Grid item>
+                      <Button variant="contained" color="error" onClick={ ()=>{handleDeleteBin(ele.bin_id)} } >Delete</Button>
+                    </Grid>
+                  </Grid>
+                </Table.Cell>
               </Table.Row>
             );
           })}

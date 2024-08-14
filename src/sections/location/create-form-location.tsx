@@ -2,7 +2,6 @@ import { endpoints } from '@/services/axios';
 import { getAddForm } from '@/services/locations';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormHelperText, TextField, Button, Stack } from '@mui/material';
-import axios from 'axios';
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import { mutate } from 'swr';
@@ -17,14 +16,13 @@ const schema = Yup.object().shape({
 });
 
 export default function CreateFormLocation() {
-  const { control, register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>(
-    {
-      defaultValues: {
-        loc_name: "",
-      },
-      resolver: yupResolver(schema),
-      mode: "onTouched",
-    });
+  const { control, register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>({
+    defaultValues: {
+      loc_name: "",
+    },
+    resolver: yupResolver(schema),
+    mode: "onTouched",
+  });
 
   const onSubmit = async (values: FormValues) => {
     try {
@@ -45,8 +43,7 @@ export default function CreateFormLocation() {
             control={control}
             name="loc_name"
             render={({ field, fieldState: { error } }) =>
-              <TextField id="outlined-basic" label="Location Name" variant="outlined" {...field}
-                {...register("loc_name")} error={!!error} />}
+              <TextField id="outlined-basic" label="Location Name" variant="outlined" {...field} {...register("loc_name")} error={!!error} />}
           />
           {errors.loc_name && <FormHelperText error>{errors.loc_name.message}</FormHelperText>}
 
