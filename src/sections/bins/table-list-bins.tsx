@@ -5,10 +5,24 @@ import { IBins } from "./typeBins";
 import { Button, Grid } from "@mui/material";
 import { deleteBinId } from "@/services/bins";
 
+interface IPropsBinsTable {
+  setOpen: (open: boolean) => void;
+  setBinId: (binId: number) => void;
+}
 
-export default function BinsTable() {
+
+
+export default function BinsTable( {setOpen, setBinId}:IPropsBinsTable ) {
   const { data: binsList = [], error, isLoading } = useSWR<IBins[]>(endpoints.bins, fetcher);
   // console.log(binsList);
+
+
+  const handleEditBin = (binId: number) => {
+    console.log("Bin Id: ", binId);
+    setBinId(binId);
+    setOpen(true);
+  }
+  
 
 
   const handleDeleteBin = async (binId: number) => {
@@ -43,12 +57,12 @@ export default function BinsTable() {
             return (
               <Table.Row key={ele.bin_id}>
                 <Table.RowHeaderCell>{ele.bin_id}</Table.RowHeaderCell>
-                <Table.Cell>{ele.bin_name}</Table.Cell>
+                <Table.Cell>{ele.bin_name} {ele.bin_id}</Table.Cell>
                 <Table.Cell>{ele.bin_desc}</Table.Cell>
                 <Table.Cell>
                   <Grid container direction="row" spacing={1}>
                     <Grid item>
-                      <Button variant="contained" color="primary">Edit</Button>
+                      <Button variant="contained" color="primary" onClick={()=>{handleEditBin(ele.bin_id)}} >Edit</Button>
                     </Grid>
                     <Grid item>
                       <Button variant="contained" color="error" onClick={ ()=>{handleDeleteBin(ele.bin_id)} } >Delete</Button>
