@@ -18,3 +18,26 @@ export const deleteBinId = async (binId: number) => {
     throw error.response.data;
   }
 }
+
+
+export const getBinById = async (binId: number) => {
+  try {
+    const response = await axios.get(`/api/bins/bin-by-id/${binId}`);
+    // console.log("Back API: ", response.data);
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+}
+
+
+export const putBinForm = async (binId: number, payload: []) => {
+  try {
+    console.log("Back API: ", binId, payload);
+    const response = await axios.put(`/api/bins/put-binIdUpdate/${binId}`, payload);
+    
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+}

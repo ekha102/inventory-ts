@@ -26,7 +26,7 @@ export default function CreateFormLocation() {
 
   const onSubmit = async (values: FormValues) => {
     try {
-      const res = await getAddForm(values);
+      await getAddForm(values);
       mutate(endpoints.locations);
       reset();
     } catch (error) {

@@ -18,7 +18,7 @@ export default function BinsTable( {setOpen, setBinId}:IPropsBinsTable ) {
 
 
   const handleEditBin = (binId: number) => {
-    console.log("Bin Id: ", binId);
+    // console.log("Bin Id: ", binId);
     setBinId(binId);
     setOpen(true);
   }

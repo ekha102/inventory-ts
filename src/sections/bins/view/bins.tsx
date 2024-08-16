@@ -7,7 +7,7 @@ import BinsTable from "../table-list-bins";
 export default function bin() {
   const [open, setOpen] = useState<boolean>(false)
   const [binId, setBinId] = useState<number>(0);
-  console.log("parent component bin id: ", binId);
+  // console.log("parent component bin id: ", binId);
 
   return (
     <div>
