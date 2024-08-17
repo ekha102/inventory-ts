@@ -2,12 +2,12 @@ import React from 'react'
 import useSWR, { mutate } from 'swr';
 import axios, { endpoints } from '@/services/axios';
 
-import { ILocations } from './typeLocation';
+import { ILocationTable } from './typeLocation';
 import { Button, Table } from '@radix-ui/themes';
 import { deleteLocation } from '@/services/locations';
 
 export default function TableListLocation() {
-  const { data: locationList = [], error, isLoading } = useSWR<ILocations[]>(endpoints.locations, axios);
+  const { data: locationList = [], error, isLoading } = useSWR<ILocationTable[]>(endpoints.locations, axios);
 
   const handleDeleteLocationItem = async (locId: number) => {
     // console.log("Loc_id: ", locId)

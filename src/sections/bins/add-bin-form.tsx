@@ -4,6 +4,7 @@ import { mutate } from "swr";
 import { endpoints } from "@/services/axios";
 import { createBinName } from "@/services/bins";
 
+
 export default function AddBin() {
 
   const handleCreateBin = async () => {   

@@ -1,11 +1,12 @@
 
 import React, { useEffect } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, Stack, TextField } from "@mui/material";
 import useSWR, { mutate } from "swr";
 import axios, { endpoints } from "@/services/axios";
 import { Controller, useForm } from "react-hook-form";
-import { IBins } from "./typeBins";
 import { putBinForm } from "@/services/bins";
+import { IEditBins } from "./typeBins";
+import { ILocationInBins } from "../location/typeLocation";
 
 
 interface IProp {
@@ -14,36 +15,37 @@ interface IProp {
   binId: number;
 }
 
-
-
 export default function DialogEditBin({ open, setOpen, binId }: IProp) {
 
   // console.log("Pass down to children component for Bin Id: ", binId);
-  const { data: formBinById = [], isLoading, error } = useSWR(`/api/bins/bin-by-id/${binId}`, axios);
-  // console.log("Display one Bin Id: ", formBinById)
+  const { data: formBinById = [], isLoading, error } = useSWR<IEditBins[]>(`/api/bins/bin-by-id/${binId}`, axios);
+  console.log("Display one Bin Id: ", formBinById)
 
-  const { control, register, formState: { errors }, handleSubmit, reset } = useForm<IBins>({
+  const { data: locationsList=[]} = useSWR<ILocationInBins[]>(endpoints.locations, axios);
+  console.log(locationsList);
+
+  const { control, register, formState: { errors }, handleSubmit, reset } = useForm<IEditBins>({
     defaultValues: {
-      bin_id: "",
+      bin_id: undefined,
       bin_name: "",
-      // loc_id: "",
+      loc_id: undefined,
       bin_desc: "",
     },
   })
 
 
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: IEditBins) => {
+
     console.log(values);
     try {
-      const {bin_id} = values;
-      console.log("bin id: ", bin_id)
-      await putBinForm(bin_id, values);
+      const { bin_id } = values;
+      await putBinForm(bin_id as number, values);
       mutate(endpoints.bins);
       setOpen(false);
 
     } catch (error) {
-      
+
     }
   }
 
@@ -53,7 +55,7 @@ export default function DialogEditBin({ open, setOpen, binId }: IProp) {
         {
           bin_id: formBinById[0].bin_id,
           bin_name: formBinById[0].bin_name,
-          // loc_id: formBinById[0].loc_id,
+          loc_id: formBinById[0].loc_id, 
           bin_desc: formBinById[0].bin_desc,
         });
     }
@@ -67,14 +69,34 @@ export default function DialogEditBin({ open, setOpen, binId }: IProp) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
             <DialogContentText>
-              <Controller
+              <Stack spacing={2}>
+                {/* Location Name  */}
+                <Controller
                 control={control}
-                name="bin_desc"
-                render={({ field, fieldState: { error } }) => {
-                  return (
-                    <TextField id="outlined-basic" label="Bin Description" variant="outlined" {...field} {...register("bin_desc")} error={!!error} />
-                  );
-                }} />
+                name="loc_id"
+                render={({ field, fieldState: { error } }) => (
+                  <TextField select {...field} sx={{ minWidth: 210 }}
+                    id="demo-simple-select-filled" label="Location Name" variant="outlined"  {...register("loc_id")} error={!!error} >
+                    {/* Dynamically generate options */}
+                    {locationsList?.map((ele) => {
+                      return (
+                        <MenuItem key={ele.loc_id} value={ele.loc_id}>{ele.loc_name}</MenuItem>
+                      );
+                    })}
+                  </TextField>
+                )}
+              />
+
+                {/* Description  */}
+                <Controller
+                  control={control}
+                  name="bin_desc"
+                  render={({ field, fieldState: { error } }) => {
+                    return (
+                      <TextField id="outlined-basic" label="Bin Description" variant="outlined" {...field} {...register("bin_desc")} error={!!error} />
+                    );
+                  }} />
+              </Stack>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -1,9 +1,10 @@
 import fetcher, { endpoints } from "@/services/axios";
 import { Table } from "@radix-ui/themes";
 import useSWR, { mutate } from "swr";
-import { IBins } from "./typeBins";
+
 import { Button, Grid } from "@mui/material";
 import { deleteBinId } from "@/services/bins";
+import { IEditBins } from "./typeBins";
 
 interface IPropsBinsTable {
   setOpen: (open: boolean) => void;
@@ -13,7 +14,7 @@ interface IPropsBinsTable {
 
 
 export default function BinsTable( {setOpen, setBinId}:IPropsBinsTable ) {
-  const { data: binsList = [], error, isLoading } = useSWR<IBins[]>(endpoints.bins, fetcher);
+  const { data: binsList = [], error, isLoading } = useSWR<IEditBins[]>(endpoints.bins, fetcher);
   // console.log(binsList);
 
 
@@ -25,9 +26,9 @@ export default function BinsTable( {setOpen, setBinId}:IPropsBinsTable ) {
   
 
 
-  const handleDeleteBin = async (binId: number) => {
+  const handleDeleteBin = async (bin_id: number) => {
     try {
-      await deleteBinId(binId);
+      await deleteBinId(bin_id);
       mutate(endpoints.bins);
     } catch (error) {
       
@@ -46,6 +47,7 @@ export default function BinsTable( {setOpen, setBinId}:IPropsBinsTable ) {
           <Table.Row>
             <Table.ColumnHeaderCell>ID</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Bin Name</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Location Name</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Action</Table.ColumnHeaderCell>
           </Table.Row>
@@ -58,6 +60,7 @@ export default function BinsTable( {setOpen, setBinId}:IPropsBinsTable ) {
               <Table.Row key={ele.bin_id}>
                 <Table.RowHeaderCell>{ele.bin_id}</Table.RowHeaderCell>
                 <Table.Cell>{ele.bin_name} {ele.bin_id}</Table.Cell>
+                <Table.Cell>{ele.loc_name}</Table.Cell>
                 <Table.Cell>{ele.bin_desc}</Table.Cell>
                 <Table.Cell>
                   <Grid container direction="row" spacing={1}>

@@ -6,17 +6,18 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import { mutate } from 'swr';
 import * as Yup from 'yup'
+import { ICreateLoc, ILocations } from './typeLocation';
 
-interface FormValues {
-  loc_name: string;
-}
+// interface FormValues {
+//   loc_name: string;
+// }
 
 const schema = Yup.object().shape({
   loc_name: Yup.string().required('Location name is required'),
 });
 
 export default function CreateFormLocation() {
-  const { control, register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>({
+  const { control, register, handleSubmit, formState: { errors }, reset } = useForm<ILocations>({
     defaultValues: {
       loc_name: "",
     },
@@ -24,7 +25,7 @@ export default function CreateFormLocation() {
     mode: "onTouched",
   });
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (values: ICreateLoc) => {
     try {
       await getAddForm(values);
       mutate(endpoints.locations);

@@ -1,3 +1,4 @@
+import { ILocations, ILocationsPayload } from "@/sections/location/typeLocation";
 import axios from "../axios";
 
 export const deleteLocation = async (locId: number) => {
@@ -10,7 +11,7 @@ export const deleteLocation = async (locId: number) => {
   }
 }
 
-export const getAddForm = async (payload: [] ) => {
+export const getAddForm = async (payload: ILocations ) => {
   try {
     // console.log(payload);
     const response = await axios.post(`/api/locations/created-location`, payload);
