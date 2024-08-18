@@ -1,11 +1,12 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Bins', href: '/bins', current: false },
   { name: 'location', href: '/locations', current: false },
+  { name: 'hide this router', href: '/create-item' },
 ]
 
 function classNames(...classes: string[]) {

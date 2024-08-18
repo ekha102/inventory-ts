@@ -1,4 +1,4 @@
-import { ILocations, ILocationsPayload } from "@/sections/location/typeLocation";
+import { ILocations } from "@/sections/location/typeLocation";
 import axios from "../axios";
 
 export const deleteLocation = async (locId: number) => {

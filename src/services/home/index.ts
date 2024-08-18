@@ -1,4 +1,16 @@
+import { ICreateItem } from "@/sections/home/typeItems";
 import axios from "../axios";
+
+
+export const createItemToForm = async (payload: ICreateItem) => {
+  // console.log("API: ", payload);
+  try {
+    const response = await axios.post(`/api/items/created-item`, payload);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+}
 
 
 export const deleteItemId = async (itemId: number) => {

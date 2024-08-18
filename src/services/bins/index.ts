@@ -1,5 +1,6 @@
-import { IBins } from "@/sections/bins/typeBins";
 import axios from "../axios";
+import { IEditBins } from "@/sections/bins/typeBins";
+
 
 
 export const createBinName = async (payload: []) => {
@@ -32,7 +33,7 @@ export const getBinById = async (binId: number) => {
 }
 
 
-export const putBinForm = async (binId: number, payload: IBins) => {
+export const putBinForm = async (binId: number, payload: IEditBins) => {
   try {
     console.log("Back API: ", binId, payload);
     const response = await axios.put(`/api/bins/put-binIdUpdate/${binId}`, payload);

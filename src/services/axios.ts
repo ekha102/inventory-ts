@@ -28,7 +28,7 @@ export const endpoints = {
   items: '/api/items/get-items',
   bins: '/api/bins/get-bins',
   locations: '/api/locations/get-locations',
-  stores: '/stores',
+  stores: '/api/stores/get-stores',
 
   // LocationRoute.get("/get-locations", getLocations);
   // LocationRoute.post("/created-location", getInputLocation,)
