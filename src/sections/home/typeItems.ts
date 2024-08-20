@@ -9,6 +9,7 @@ export interface IItems {
 export interface ICreateItem {
   item_name: string;
   store_id: number | string;
+  switch_bin: boolean;
   loc_id: number | string;
   bin_id: number | string;
   quantity: number | string;

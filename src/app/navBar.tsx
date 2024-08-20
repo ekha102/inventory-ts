@@ -6,7 +6,6 @@ const navigation = [
   { name: 'Team', href: '#', current: false },
   { name: 'Bins', href: '/bins', current: false },
   { name: 'location', href: '/locations', current: false },
-  { name: 'hide this router', href: '/create-item' },
 ]
 
 function classNames(...classes: string[]) {

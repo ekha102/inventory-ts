@@ -1,4 +1,4 @@
-import { Button, FormHelperText, MenuItem, TextField } from "@mui/material";
+import { Button, FormControlLabel, FormHelperText, MenuItem, Switch, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup'
@@ -10,15 +10,19 @@ import { ILocationInBins } from "../location/typeLocation";
 import { ITableBins } from "../bins/typeBins";
 import { createItemToForm } from "@/services/home";
 import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import FormGroup from '@mui/material/FormGroup';
 
 
 
 export default function CreateItem() {
   const router = useRouter();
+  const [switchBin, setSwitchBin] = useState<boolean>(true);
+  console.log("Bin: ", switchBin)
 
   const { data: storeList = [] } = useSWR<IStoretoItem[]>(endpoints.stores, axios);
   const { data: locationList = [] } = useSWR<ILocationInBins[]>(endpoints.locations, axios);
-  const { data: binList=[] } = useSWR<ITableBins[]>(endpoints.bins, axios);
+  const { data: binList = [] } = useSWR<ITableBins[]>(endpoints.bins, axios);
   // console.log(storeList);
   // console.log(locationList);
   // console.log(binList);
@@ -32,6 +36,7 @@ export default function CreateItem() {
     defaultValues: {
       item_name: "",
       store_id: "",
+      switch_bin: switchBin,
       loc_id: "",
       bin_id: "",
       quantity: "",
@@ -43,11 +48,17 @@ export default function CreateItem() {
     mode: "onTouched",
   });
 
+  const handleChangeBin = (event: boolean) => {
+    const checked = event.target.checked;
+    setSwitchBin(checked);
+  }
+
+
   const onSubmit = async (values: ICreateItem[]) => {
     // console.log(values)
     await createItemToForm(values);
+    // console.log(values)
     router.push("/");
-    
   }
 
   return (
@@ -87,46 +98,67 @@ export default function CreateItem() {
           {errors.store_id && <FormHelperText error>{errors.store_id.message}</FormHelperText>}
         </div>
 
-        {/* Location  */}
+        {/* Switch for Bin yes or no  */}
         <div className="mb-3">
-          <Controller
-            control={control}
-            name="loc_id"
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <TextField select id="outlined-basic" label="Location Name" variant="outlined" {...field} error={!!error} {...register("loc_id")} sx={{ minWidth: 210 }} >
-                  {locationList?.map((ele) => {
-                    return (
-                      <MenuItem key={ele.loc_id} value={ele.loc_id}>{ele.loc_name}</MenuItem>
-                    );
-                  })}
-                </TextField>
-              );
-            }}
-          />
-          {errors.loc_id && <FormHelperText error>{errors.loc_id.message}</FormHelperText>}
+          <FormGroup>
+            <Controller
+              control={control}
+              name="switch_bin"
+              render={({ field }) => (
+                <FormControlLabel control={<Switch {...field} checked={switchBin} onClick={handleChangeBin} />} label="Bin need?" />
+              )}
+            />
+          </FormGroup>
+
+          {errors.switch_bin && <FormHelperText error>{errors.switch_bin.message}</FormHelperText>}
         </div>
 
 
-        {/* Bins  */}
-        <div className="mb-3">
-          <Controller
-            control={control}
-            name="bin_id"
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <TextField select id="outlined-basic" label="Bin Name" variant="outlined" {...field} error={!!error} {...register("bin_id")} sx={{ minWidth: 210 }} >
-                  {binList?.map((ele) => {
-                    return (
-                      <MenuItem key={ele.bin_id} value={ele.bin_id}>{ele.bin_name} {ele.bin_id}</MenuItem>
-                    );
-                  })}
-                </TextField>
-              );
-            }}
-          />
-          {errors.bin_id && <FormHelperText error>{errors.bin_id.message}</FormHelperText>}
-        </div>
+
+
+        {(switchBin) ?
+          <div className="mb-3">
+            <Controller
+              control={control}
+              name="bin_id"
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <TextField select id="outlined-basic" label="Bin Name" variant="outlined" {...field} error={!!error} {...register("bin_id")} sx={{ minWidth: 210 }} >
+                    {binList?.map((ele) => {
+                      return (
+                        <MenuItem key={ele.bin_id} value={ele.bin_id}>{ele.bin_name} {ele.bin_id}</MenuItem>
+                      );
+                    })}
+                  </TextField>
+                );
+              }}
+            />
+            {errors.bin_id && <FormHelperText error>{errors.bin_id.message}</FormHelperText>}
+          </div>
+
+
+
+          :
+          <div className="mb-3">
+            <Controller
+              control={control}
+              name="loc_id"
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <TextField select id="outlined-basic" label="Location Name" variant="outlined" {...field} error={!!error} {...register("loc_id")} sx={{ minWidth: 210 }} >
+                    {locationList?.map((ele) => {
+                      return (
+                        <MenuItem key={ele.loc_id} value={ele.loc_id}>{ele.loc_name}</MenuItem>
+                      );
+                    })}
+                  </TextField>
+                );
+              }}
+            />
+            {errors.loc_id && <FormHelperText error>{errors.loc_id.message}</FormHelperText>}
+          </div>
+        }
+
 
         {/* Quantity */}
         <div className="mb-3">
@@ -187,7 +219,7 @@ export default function CreateItem() {
 
         <Button type="submit" variant="contained" color="primary">Submit</Button>
 
-      </form>
+      </form >
     </>
   );
 }

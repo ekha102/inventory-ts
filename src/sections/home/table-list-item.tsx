@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import useSWR, { mutate } from "swr"
 
@@ -6,13 +8,17 @@ import { IItems } from './typeItems';
 import { Table } from '@radix-ui/themes';
 import { Button } from '@mui/material';
 import { deleteItemId } from '@/services/home';
+import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+
 
 
 
 export default function TableListItems() {
+
   const { data: itemsList = [], error, isLoading } = useSWR<IItems[]>(endpoints.items, axios);
 
-
+  const router = useRouter();
 
   // Delete the item in the table out 
   const handleDeleteItem = async (itemId: number) => {
@@ -24,7 +30,6 @@ export default function TableListItems() {
     } catch (error) {
       
     }
-
   }
 
   if (error) return <div>Failed to load locations.</div>;
@@ -56,6 +61,7 @@ export default function TableListItems() {
                 <Table.Cell>{ele.alert}</Table.Cell>
                 <Table.Cell>{ele.comment}</Table.Cell>
                 <Table.Cell>
+                  <Button variant="contained" color="primary" size='small' onClick={() => router.push(`/edit-item-id/${ele.item_id}`)}>Edit</Button>
                   <Button variant='contained' color='error' size='small' onClick={()=>{handleDeleteItem(ele.item_id)}} >Delete</Button>
                 </Table.Cell>
               </Table.Row>
