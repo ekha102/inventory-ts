@@ -8,7 +8,6 @@ import { IItems } from './typeItems';
 import { Table } from '@radix-ui/themes';
 import { Button } from '@mui/material';
 import { deleteItemId } from '@/services/home';
-import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 
 

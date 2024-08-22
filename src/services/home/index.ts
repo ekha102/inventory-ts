@@ -13,6 +13,15 @@ export const createItemToForm = async (payload: ICreateItem) => {
 }
 
 
+export const editIdForm = async (itemId: number) => {
+  try {
+    const response = await axios.get(`/api/items/get-itemId/${itemId}`);
+    return response.data;
+  } catch (error: any) {
+    return error.response.data
+  }
+}
+
 export const deleteItemId = async (itemId: number) => {
   // console.log("Send to the be:", itemId)
   try {

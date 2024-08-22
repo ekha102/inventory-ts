@@ -30,8 +30,4 @@ export const endpoints = {
   locations: '/api/locations/get-locations',
   stores: '/api/stores/get-stores',
 
-  // LocationRoute.get("/get-locations", getLocations);
-  // LocationRoute.post("/created-location", getInputLocation,)
-  // LocationRoute.delete("/deleted-location/:locId", getDeletedLocation);
-
 };
