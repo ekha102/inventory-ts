@@ -1,5 +1,5 @@
 import { Table } from "@radix-ui/themes";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { IStores } from './typeStores';
 import axios, { endpoints } from '@/services/axios';
 import { Button } from "@mui/material";
@@ -11,16 +11,16 @@ export default function StoreTable() {
 
   const { data: storeList = [], isLoading, error } = useSWR<IStores[]>(endpoints.stores, axios);
   // console.log(storeList);
+  
 
   const handleDeleteStore = async (storeId: number) => {
     // console.log(storeId);
     try {
       await deleteStore(storeId);
+      mutate(endpoints.stores);
     } catch (error) {
       alert("Store delete is error");
-    }
-    
-    
+    }    
   }
 
   if (error) return <div>failed to load</div>

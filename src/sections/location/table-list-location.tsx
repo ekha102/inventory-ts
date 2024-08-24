@@ -3,18 +3,22 @@ import useSWR, { mutate } from 'swr';
 import axios, { endpoints } from '@/services/axios';
 
 import { ILocationTable } from './typeLocation';
-import { Button, Table } from '@radix-ui/themes';
+import { Table } from '@radix-ui/themes';
 import { deleteLocation } from '@/services/locations';
+import { Button } from '@mui/material';
 
 export default function TableListLocation() {
   const { data: locationList = [], error, isLoading } = useSWR<ILocationTable[]>(endpoints.locations, axios);
 
   const handleDeleteLocationItem = async (locId: number) => {
     // console.log("Loc_id: ", locId)
-    const res = await deleteLocation(locId)
-    if (res.status) {
+    try {
+      await deleteLocation(locId);
       mutate(endpoints.locations);
+    } catch (error) {
+      alert("Location delete is error");
     }
+
 
   }
 
@@ -39,7 +43,7 @@ export default function TableListLocation() {
                 <Table.RowHeaderCell>{ele.loc_id}</Table.RowHeaderCell>
                 <Table.Cell>{ele.loc_name}</Table.Cell>
                 <Table.Cell>
-                  <Button size="2" variant="solid" color="red" onClick={()=>{handleDeleteLocationItem(ele.loc_id)}}>
+                  <Button variant="solid" color="red" size="small" onClick={()=>{handleDeleteLocationItem(ele.loc_id)}}>
                     Delete
                   </Button>
                 </Table.Cell>
