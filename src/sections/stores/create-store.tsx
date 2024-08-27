@@ -73,7 +73,7 @@ export default function CreateStore({ open, setOpen }: IStores) {
 
           </Toolbar>
         </AppBar>
-        <List>
+        <List className="px-[20px]">
           {/* Form place here  */}
           <div className='ms-4'>
             <form onSubmit={handleSubmit(onSubmit)} >

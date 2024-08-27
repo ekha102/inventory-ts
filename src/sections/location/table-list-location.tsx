@@ -43,9 +43,9 @@ export default function TableListLocation() {
                 <Table.RowHeaderCell>{ele.loc_id}</Table.RowHeaderCell>
                 <Table.Cell>{ele.loc_name}</Table.Cell>
                 <Table.Cell>
-                  <Button variant="solid" color="red" size="small" onClick={()=>{handleDeleteLocationItem(ele.loc_id)}}>
+                  <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => { handleDeleteLocationItem(ele.loc_id) }}>
                     Delete
-                  </Button>
+                  </button>
                 </Table.Cell>
               </Table.Row>
             );

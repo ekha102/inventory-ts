@@ -60,7 +60,7 @@ export default function TableListItems() {
                 <Table.Cell>{ele.alert}</Table.Cell>
                 <Table.Cell>{ele.comment}</Table.Cell>
                 <Table.Cell>
-                  <Button variant="contained" color="primary" size='small' onClick={() => router.push(`/edit-item-id/${ele.item_id}`)}>Edit</Button>
+                  <Button className="mr-2" variant="contained" color="primary" size='small' onClick={() => router.push(`/edit-item-id/${ele.item_id}`)}>Edit</Button>
                   <Button variant='contained' color='error' size='small' onClick={()=>{handleDeleteItem(ele.item_id)}} >Delete</Button>
                 </Table.Cell>
               </Table.Row>

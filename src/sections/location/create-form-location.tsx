@@ -39,7 +39,7 @@ export default function CreateFormLocation() {
       {/* Need to seperate into component for form location  */}
       <form onSubmit={handleSubmit(onSubmit)}>
 
-        <Stack spacing={2}>
+        <div>
           <Controller
             control={control}
             name="loc_name"
@@ -47,9 +47,14 @@ export default function CreateFormLocation() {
               <TextField id="outlined-basic" label="Location Name" variant="outlined" {...field} {...register("loc_name")} error={!!error} />}
           />
           {errors.loc_name && <FormHelperText error>{errors.loc_name.message}</FormHelperText>}
+        </div>
 
+        <div className="my-4">
           <Button type="submit" variant="contained" color="primary">Submit</Button>
-        </Stack>
+        </div>
+
+
+
 
 
       </form>

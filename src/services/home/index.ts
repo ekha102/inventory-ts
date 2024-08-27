@@ -16,6 +16,8 @@ export const createItemToForm = async (payload: ICreateItem) => {
 export const editIdForm = async (itemId: number) => {
   try {
     const response = await axios.get(`/api/items/get-itemId/${itemId}`);
+    // console.log("response", response);
+    
     return response.data;
   } catch (error: any) {
     return error.response.data

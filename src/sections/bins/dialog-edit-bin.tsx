@@ -26,9 +26,9 @@ export default function DialogEditBin({ open, setOpen, binId }: IProp) {
 
   const { control, register, formState: { errors }, handleSubmit, reset } = useForm<IEditBins>({
     defaultValues: {
-      bin_id: undefined,
+      bin_id: "",
       bin_name: "",
-      loc_id: undefined,
+      loc_id: "",
       bin_desc: "",
     },
   })
@@ -54,8 +54,8 @@ export default function DialogEditBin({ open, setOpen, binId }: IProp) {
       reset(
         {
           bin_id: formBinById[0].bin_id,
-          bin_name: formBinById[0].bin_name,
-          loc_id: formBinById[0].loc_id, 
+          bin_name: formBinById[0].bin_name || "",  // In the backend maybe pass in the null value that we need to handle the empty string.
+          loc_id: formBinById[0].loc_id || "", 
           bin_desc: formBinById[0].bin_desc,
         });
     }
