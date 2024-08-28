@@ -35,3 +35,15 @@ export const deleteItemId = async (itemId: number) => {
     throw error.response.data;
   }
 }
+
+// Put: after edit the data put into the API
+export const updateFormItemById = async (itemId:number, payload:any) => {
+  console.log(payload);
+  try {
+    const response = await axios.put(`/api/items/put-itemIdUpdate/${itemId}`, payload);
+    return response.data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+}
+

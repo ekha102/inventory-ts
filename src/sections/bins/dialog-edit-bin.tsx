@@ -37,7 +37,7 @@ export default function DialogEditBin({ open, setOpen, binId }: IProp) {
 
   const onSubmit = async (values: IEditBins) => {
 
-    console.log(values);
+    // console.log(values);
     try {
       const { bin_id } = values;
       await putBinForm(bin_id as number, values);
