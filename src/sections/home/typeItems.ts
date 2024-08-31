@@ -10,8 +10,8 @@ export interface ICreateItem {
   item_name: string;
   store_id: number | string;
   switch_bin: boolean;
-  loc_id: number | string;
-  bin_id: number | string;
+  loc_id: number;
+  bin_id: number;
   quantity: number | string;
   alert: number | string;
   comment: string;

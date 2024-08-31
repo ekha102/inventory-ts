@@ -1,4 +1,4 @@
-import { ICreateItem } from "@/sections/home/typeItems";
+import { ICreateItem, IEditIdList } from "@/sections/home/typeItems";
 import axios from "../axios";
 
 
@@ -37,8 +37,8 @@ export const deleteItemId = async (itemId: number) => {
 }
 
 // Put: after edit the data put into the API
-export const updateFormItemById = async (itemId:number, payload:any) => {
-  console.log(payload);
+export const updateFormItemById = async (itemId:number, payload:IEditIdList) => {
+  console.log("BE: ", payload);
   try {
     const response = await axios.put(`/api/items/put-itemIdUpdate/${itemId}`, payload);
     return response.data;

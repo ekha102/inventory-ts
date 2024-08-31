@@ -17,8 +17,8 @@ import FormGroup from '@mui/material/FormGroup';
 
 export default function CreateItem() {
   const router = useRouter();
-  const [switchBin, setSwitchBin] = useState<boolean>(true);
-  console.log("Bin: ", switchBin)
+  const [switchBin, setSwitchBin] = useState<boolean>(false);
+
 
   const { data: storeList = [] } = useSWR<IStoretoItem[]>(endpoints.stores, axios);
   const { data: locationList = [] } = useSWR<ILocationInBins[]>(endpoints.locations, axios);
@@ -32,11 +32,11 @@ export default function CreateItem() {
     item_name: Yup.string().required("Item name must be required.")
   })
 
-  const { control, register, formState: { errors }, handleSubmit, reset } = useForm<ICreateItem>({
+  const { control, register, formState: { errors }, handleSubmit, reset, setValue } = useForm<ICreateItem>({
     defaultValues: {
       item_name: "",
       store_id: "",
-      switch_bin: switchBin,
+      switch_bin: switchBin || false,
       loc_id: "",
       bin_id: "",
       quantity: "",
@@ -48,16 +48,28 @@ export default function CreateItem() {
     mode: "onTouched",
   });
 
-  const handleChangeBin = (event: boolean) => {
+
+  const handleChange = (event) => {
     const checked = event.target.checked;
+    setValue("switch_bin", checked);
+    console.log("Set Value: ", setValue);
     setSwitchBin(checked);
-  }
+  };
+
 
 
   const onSubmit = async (values: ICreateItem[]) => {
-    // console.log(values)
+    const { switch_bin } = values;
+
+    if (switch_bin) {
+      values.bin_id;
+      values.loc_id = "";
+    } else {
+      values.bin_id = "";
+      values.loc_id;
+    }
+    console.log(values)
     await createItemToForm(values);
-    // console.log(values)
     router.push("/");
   }
 
@@ -105,7 +117,7 @@ export default function CreateItem() {
               control={control}
               name="switch_bin"
               render={({ field }) => (
-                <FormControlLabel control={<Switch {...field} checked={switchBin} onClick={handleChangeBin} />} label="Bin need?" />
+                <FormControlLabel control={<Switch {...field} checked={switchBin} onChange={handleChange} />} label="Bin need?" />
               )}
             />
           </FormGroup>

@@ -25,14 +25,14 @@ export default function EditItem() {
   const { itemId } = useParams<Params>();
   const router = useRouter();
 
-  const [switchBin, setSwitchBin] = useState<boolean>(false);
+  const [switchBin, setSwitchBin] = useState<number>(0);
   // console.log("Bin Switch: ", switchBin);
 
   const formInput = Yup.object().shape({
     item_name: Yup.string().required("Item name must be required."),
   })
 
-  const { control, register, formState: { errors }, handleSubmit, reset } = useForm<IEditIdList>({
+  const { control, register, formState: { errors }, handleSubmit, reset, setValue } = useForm<IEditIdList>({
     defaultValues: {
       item_name: "",
       store_id: "",
@@ -56,12 +56,27 @@ export default function EditItem() {
   // console.log(editIdList);
   // console.log("Bin List: ", binList);
 
+  const handleChange = (event) => {
+    const checked = event.target.checked;
+    setValue("switch_bin", checked);
+    // console.log("Set Value: ", setValue);
+    setSwitchBin(checked);
+  };
 
 
   const onSubmit = async (values: IEditIdList) => {
     try {
-      const { itemId } = values;
-      await updateFormItemById(itemId as number, values);
+      const { item_id, switch_bin } = values;
+      
+      if (switch_bin) {
+        values.bin_id;
+        values.loc_id = "";
+      } else {
+        values.bin_id = "";
+        values.loc_id;
+      }
+      // console.log(values);
+      await updateFormItemById(item_id as number, values);
       router.push("/");
       mutate(endpoints.items);
     } catch (error) {
@@ -74,14 +89,16 @@ export default function EditItem() {
       setSwitchBin(editIdList[0].switch_bin);
       reset(
         {
+          item_id: editIdList[0].item_id,
           item_name: editIdList[0].item_name,
           store_id: editIdList[0].store_id,
-          loc_id: editIdList[0].loc_id || "",
-          bin_id: editIdList[0].bin_id || "",
+          loc_id: editIdList[0].loc_id,
+          bin_id: editIdList[0].bin_id,
           quantity: editIdList[0].quantity,
           alert: editIdList[0].alert,
           comment: editIdList[0].comment,
           item_desc: editIdList[0].item_desc,
+          switch_bin: editIdList[0].switch_bin,
         }
       )
     }
@@ -143,7 +160,7 @@ export default function EditItem() {
         {/* Switch Bin  */}
         <div className="my-5">
           <label className="inline-flex items-center cursor-pointer">
-            <input type="checkbox" className="sr-only peer" checked={switchBin} onChange={() => setSwitchBin(!switchBin)} />
+            <input type="checkbox" className="sr-only peer" checked={switchBin} onChange={handleChange} />
             <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" />
             <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Need Bin?</span>
           </label>

@@ -21,7 +21,7 @@ export default function TableListItems() {
 
   // Delete the item in the table out 
   const handleDeleteItem = async (itemId: number) => {
-    console.log(itemId);
+    // console.log(itemId);
     try {
       await deleteItemId(itemId);
       // Recall the useSWR to fetch the data again for delete item 

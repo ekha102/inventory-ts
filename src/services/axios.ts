@@ -29,5 +29,6 @@ export const endpoints = {
   bins: '/api/bins/get-bins',
   locations: '/api/locations/get-locations',
   stores: '/api/stores/get-stores',
-
+  viewAlert: '/api/alert-view/get-alertView',
+  checkIn: '/api/check-in/get-checkIn',
 };
