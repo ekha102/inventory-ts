@@ -31,7 +31,7 @@ export default function TableListItems() {
     }
   }
 
-  if (error) return <div>Failed to load locations.</div>;
+  if (error) return <div>Failed to load items.</div>;
   if (isLoading) return <div>Loading...</div>;
 
 

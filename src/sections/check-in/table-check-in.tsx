@@ -4,6 +4,7 @@ import axiosInstance, { endpoints } from "@/services/axios";
 import useSWR from "swr";
 import { ICheckInTable } from "./typeCheckIn";
 import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
 
 
 export default function TableCheckIn() {
@@ -43,6 +44,7 @@ export default function TableCheckIn() {
         </thead>
         <tbody>
           {checkInList?.map((ele) => {
+            const checkInDate = dayjs(ele.check_in_date).format("MM-DD-YYYY");
             return (
               <tr key={ele.item_id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -55,7 +57,7 @@ export default function TableCheckIn() {
                   {ele.quantity}
                 </td>
                 <td className="px-6 py-4">
-                  {ele.check_in_date}
+                  {checkInDate}
                 </td>
                 <td className="px-6 py-4">
                   {ele.comment}

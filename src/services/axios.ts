@@ -31,4 +31,9 @@ export const endpoints = {
   stores: '/api/stores/get-stores',
   viewAlert: '/api/alert-view/get-alertView',
   checkIn: '/api/check-in/get-checkIn',
+  auth: {
+    me: '/api/users/me',
+    login: '/api/auth/login',
+    register: '/api/auth/register'
+  }
 };
