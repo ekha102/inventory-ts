@@ -5,6 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup'
 import { IRegisterForm } from "./type-regsiter-form";
+import { createUserAccount } from "@/services/register";
 
 
 export default function RegisterForm() {
@@ -32,8 +33,16 @@ export default function RegisterForm() {
   });
 
 
-  const onSubmit = (values: IRegisterForm) => {
+  const onSubmit = async (values: IRegisterForm) => {
     console.log(values);
+    try {
+      await createUserAccount(values);
+      router.push("/login");
+    } catch (error) {
+      alert("Error add the account")
+    }
+    
+
   }
 
 
