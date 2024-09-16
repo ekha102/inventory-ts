@@ -125,7 +125,7 @@ export function AuthProvider ({children}: Props) {
       // Lấy accessToken ở trong pc lên:
       const accessToken = sessionStorage.getItem(STORAGE_KEY)
 
-      console.log(123);
+      console.log(accessToken);
       
       // User has already login
       if (accessToken) {
@@ -134,7 +134,10 @@ export function AuthProvider ({children}: Props) {
 
         const res = await axiosInstance.get(endpoints.auth.me)
 
-        const {data: {user} } = res.data
+        
+        
+        // In the Video# 2 literal out the user only
+        const {user} = res.data
 
         // Get the accessToken to dispatch into the server
         dispatch({
@@ -181,7 +184,9 @@ export function AuthProvider ({children}: Props) {
     }
 
     const res = await axiosInstance.post(endpoints.auth.login, data);
-    const {data: {accessToken, user}} = res.data;
+  
+    const {accessToken, user} = res.data;
+    
     
     setSession(accessToken)
     dispatch({
@@ -229,11 +234,11 @@ export function AuthProvider ({children}: Props) {
     })
   }, [])
 
-  const checkAuthenticated = 1 ? 'authenticated' : 'unauthenticated'
-  // const checkAuthenticated = state.user ? 'authenticated' : 'unauthenticated';
+  // const checkAuthenticated = 1 ? 'authenticated' : 'unauthenticated'
+  const checkAuthenticated = state.user ? 'authenticated' : 'unauthenticated';
 
-  const status = false ? 'loading': checkAuthenticated
-  // const status = state.loading ? 'loading': checkAuthenticated;
+  // const status = false ? 'loading': checkAuthenticated
+  const status = state.loading ? 'loading': checkAuthenticated;
   
 
   // [??] How does the memo in this?

@@ -4,10 +4,12 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup'
 import { ILoginForm } from "./type-login";
-import { useRouter } from "next/navigation";
+import { useRouter  } from "next/navigation";
+import { useAuthContext } from "@/auth/hooks/use-auth-context";
 
 
 export default function LoginForm() {
+  const { login} = useAuthContext()
 
   const router = useRouter();
 
@@ -25,8 +27,11 @@ export default function LoginForm() {
     mode: "onTouched",
   });
 
-  const onSubmit = (values: ILoginForm) => {
+  const onSubmit = async (values: ILoginForm) => {
     console.log(values);
+    const {username, password} = values;
+    await login(username, password);
+    
   }
 
 
@@ -39,7 +44,7 @@ export default function LoginForm() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6" action="#">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
 
               <div>
                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>

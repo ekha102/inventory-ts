@@ -29,7 +29,7 @@ function Container ({children}: Props) {
 
   console.log(authenticated);
   
-
+  // Login: user has not login and bring to the currently page
   const check = useCallback(() => {
     if(!authenticated) { // if the auth is false then save the endpoint pathname
       const searchParams = new URLSearchParams({
@@ -53,3 +53,4 @@ function Container ({children}: Props) {
 
   return <>{children}</>
 }
+
